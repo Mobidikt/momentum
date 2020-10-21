@@ -16,30 +16,24 @@
     
     <span class="name" contenteditable="true"></span>
   </h1>
-  <h2>What Is Your Focus For Today?</h2>
+  <div>
+  <h2>Цель на сегодня:</h2>
   <h2 class="focus" contenteditable="true"></h2>
-
-<div class="city" contenteditable="true">Самара</div>
+  </div>
+<div class="weather">
+<div class="city" contenteditable="true"></div>
 <i class="weather-icon owf"></i>
 <div class="temperature"></div>
 <div class="weather-description"></div>
 <p class="humidity"></p>
 <p class="speed"></p>
+</div>
+<script type="text/javascript" language="javascript" src="http://www.rzhunemogu.ru/widzh/RNMjsonp.js"></script><script type="text/javascript"> window.onload = (function() { getJSONP('http://www.RzhuNeMogu.ru/Widzh/WidzhRNM.aspx?type=5', onSuccess); });function onSuccess(response) { document.getElementById("result_5").innerHTML = response.result; }</script><div id="result_5" onclick="getJSONP('http://www.RzhuNeMogu.ru/Widzh/WidzhRNM.aspx?type=5',onSuccess)"></div>
 
 
-
-<button class="btn"></button>
-<figure class="quote">
-  <blockquote class="blockquote">
-    You were not born a winner, and you were not born a loser. You are what you make yourself be.
-  </blockquote>
-  <figcaption class="figcaption"> 
-    Lou Holtz
-  </figcaption>
-</figure>
 
   <button class="localStore">localStore</button>
-  <button class="nextBtn">Следующая картинка</button>
+  <button class="nextBtn"></button>
   <script src="script.js"></script>
 </body>
 </html>

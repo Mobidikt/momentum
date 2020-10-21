@@ -17,7 +17,7 @@ function showTime() {
   month = getWeekMonth(today);
   day = today.getDate();
   week = getWeekDay(today);
-  // Set AM or PM
+  // Set AM or PMА
   // const showAmPm = true;
   // const amPm = hour >= 12 ? 'PM' : 'AM';
 
@@ -82,12 +82,12 @@ function setBgGreet() {
     // Afternoon
     document.body.style.backgroundImage =
       `url(./assets/images/day/${a[hour]}.jpg)`;
-    greeting.textContent = 'Добрый день, ';
+    greeting.textContent = `Добрый день, `;
   } else {
     // Evening
     document.body.style.backgroundImage =
       `url(./assets/images/evening/${a[hour]}.jpg)`;
-    greeting.textContent = 'Добрый вечер, ';
+    greeting.textContent = `Добрый вечер, `;
   }
 }
 
@@ -111,11 +111,12 @@ function nextBackground(){
 // Get Name
 function getName() {
   if (localStorage.getItem('name') === null || localStorage.getItem('name') === '') {
-    name.textContent = '[Enter Name]';
+    name.textContent = 'Введите имя';
   } else {
     name.textContent = localStorage.getItem('name');
   }
 }
+
 
 // Set Name
 function setName(e) {
@@ -125,11 +126,12 @@ function setName(e) {
       localStorage.setItem('name', e.target.innerText);
       name.blur();
     }
-  } else {
+  } 
+   else {
     localStorage.setItem('name', e.target.innerText);
     if(e.target.innerText == ''){
       localStorage.setItem('name', '');
-      name.textContent = '[Enter Name]';
+      name.textContent = 'Введите имя';
     }
   }
 }
@@ -137,7 +139,7 @@ function setName(e) {
 // Get Focus
 function getFocus() {
   if (localStorage.getItem('focus') === null || localStorage.getItem('focus') ==='') {
-    focus.textContent = '[Enter Focus]';
+    focus.textContent = 'Введите цель';
   } else {
     focus.textContent = localStorage.getItem('focus');
   }
@@ -155,32 +157,13 @@ function setFocus(e) {
     localStorage.setItem('focus', e.target.innerText);
     if(e.target.innerText === ''){
       localStorage.setItem('focus', '');
-      focus.textContent = '[Enter Focus]';
+      focus.textContent = 'Введите цель';
     }
   }
 }
 
-name.addEventListener('keypress', setName);
-name.addEventListener('blur', setName);
-name.addEventListener('click', ()=>{
-  if(name.textContent === 'Введите имя'){
-    name.textContent = '';
-  }
-});
 
-focus.addEventListener('keypress', setFocus);
-focus.addEventListener('blur', setFocus);
-focus.addEventListener('click', ()=>{
-  if (focus.textContent === '[Enter Focus]'){
-    focus.textContent = '';
-  }
-})
 
-// Run
-showTime();
-setBgGreet();
-getName();
-getFocus();
 
 const nextBtn = document.querySelector('.nextBtn');
 nextBtn.addEventListener('click', ()=>{
@@ -192,22 +175,6 @@ reset.addEventListener('click', ()=>{
   localStorage.clear();
 })
 
-// Цитаты 
-const blockquote = document.querySelector('.blockquote');
-const figcaption = document.querySelector('.figcaption');
-const btn = document.querySelector('.btn');
-
-// если в ссылке заменить lang=en на lang=ru, цитаты будут на русском языке
-// префикс https://cors-anywhere.herokuapp.com используем для доступа к данным с других сайтов если браузер возвращает ошибку Cross-Origin Request Blocked 
-async function getQuote() {  
-  const url = `https://api.forismatic.com/api/1.0/?method=getQuote&key=4553&format=json&lang=ru`;
-  const res = await fetch(url);
-  const data = await res.json(); 
-  blockquote.textContent = data.quoteText;
-  figcaption.textContent = data.quoteAuthor;
-}
-document.addEventListener('DOMContentLoaded', getQuote);
-btn.addEventListener('click', getQuote);
 
 
 // Погода
@@ -222,12 +189,42 @@ function setCity(e) {
   if (e.type === 'keypress') {
   if (e.which == 13 || e.keyCode == 13) {
     localStorage.setItem('city', e.target.innerText);
-    getWeather();
     city.blur();
-  }
-}
+    validCity();
+  }else if(e.keyCode == 27){
+    console.log(e.keyCode);
+  } 
+ }
+ else {
+    localStorage.setItem('city', e.target.innerText);
+    if(e.target.innerText == ''){
+        localStorage.setItem('city', '');
+        city.textContent = 'Введите город';
+      }
+    }
+  
 }
 
+function getCity() {
+  if (localStorage.getItem('city') === null || localStorage.getItem('city') ==='') {
+    city.textContent = 'Введите город';
+  } else {
+    city.textContent = localStorage.getItem('city');
+  }
+}
+
+function validCity(){
+  if(city.textContent !=='' && city.textContent !=='Введите город'){
+    getWeather();
+  } else {
+    city.textContent = `Введите город`;
+  temperature.textContent = ` °C`;
+  weatherDescription.textContent = ``;
+  weatherHumidity.textContent = `Влажность:  %`;
+  windSpeed.textContent = `Скорость ветра:  м/с`;
+  }
+
+}
 
 async function getWeather() {  
   try{
@@ -248,6 +245,47 @@ async function getWeather() {
   }
   
 }
-getWeather()
-document.addEventListener('DOMContentLoaded', getWeather);
+validCity()
+document.addEventListener('DOMContentLoaded', validCity);
+  
+let cit ='';
+
+function handleEscCloseCity(e) {
+    if (e.key === "Escape") {
+      city.textContent = cit;
+      city.blur();
+      validCity();
+    }
+  }
+
 city.addEventListener('keypress', setCity);
+city.addEventListener('blur', validCity);
+city.addEventListener('click', ()=>{
+  if (city.textContent === 'Введите город'){
+    city.textContent = '';
+  } else { cit = city.textContent;}
+  document.addEventListener('keydown', handleEscCloseCity);
+})
+
+name.addEventListener('keypress', setName);
+name.addEventListener('blur', setName);
+name.addEventListener('click', ()=>{
+  if(name.textContent === 'Введите имя'){
+    name.textContent = '';
+  }
+});
+
+focus.addEventListener('keypress', setFocus);
+focus.addEventListener('blur', setFocus);
+focus.addEventListener('click', ()=>{
+  if (focus.textContent === 'Введите цель'){
+    focus.textContent = '';
+  } 
+
+});
+
+// Run
+showTime();
+setBgGreet();
+getName();
+getFocus();
