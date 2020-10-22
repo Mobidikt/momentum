@@ -125,6 +125,7 @@ function setName(e) {
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('name', e.target.innerText);
       name.blur();
+      document.removeEventListener('keydown', handleEscCloseName);
     }
   } 
    else {
@@ -152,6 +153,7 @@ function setFocus(e) {
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
+      document.removeEventListener('keydown', handleEscCloseFocus);
     }
   } else {
     localStorage.setItem('focus', e.target.innerText);
@@ -191,6 +193,7 @@ function setCity(e) {
     localStorage.setItem('city', e.target.innerText);
     city.blur();
     validCity();
+    document.removeEventListener('keydown', handleEscCloseCity);
   }else if(e.keyCode == 27){
     console.log(e.keyCode);
   } 
@@ -249,12 +252,29 @@ validCity()
 document.addEventListener('DOMContentLoaded', validCity);
   
 let cit ='';
+let nam ='';
+let foc= '';
 
 function handleEscCloseCity(e) {
     if (e.key === "Escape") {
       city.textContent = cit;
       city.blur();
       validCity();
+      document.removeEventListener('keydown', handleEscCloseCity);
+    }
+  }
+  function handleEscCloseName(e) {
+    if (e.key === "Escape") {
+      name.textContent = nam;
+      name.blur();
+      document.removeEventListener('keydown', handleEscCloseName);
+    }
+  }
+  function handleEscCloseFocus(e) {
+    if (e.key === "Escape") {
+      focus.textContent = foc;
+      focus.blur();
+      document.removeEventListener('keydown', handleEscCloseFocus);
     }
   }
 
@@ -272,7 +292,8 @@ name.addEventListener('blur', setName);
 name.addEventListener('click', ()=>{
   if(name.textContent === 'Введите имя'){
     name.textContent = '';
-  }
+  } else { nam = name.textContent;}
+  document.addEventListener('keydown', handleEscCloseName);
 });
 
 focus.addEventListener('keypress', setFocus);
@@ -280,8 +301,8 @@ focus.addEventListener('blur', setFocus);
 focus.addEventListener('click', ()=>{
   if (focus.textContent === 'Введите цель'){
     focus.textContent = '';
-  } 
-
+  } else { foc = focus.textContent;}
+document.addEventListener('keydown', handleEscCloseFocus);
 });
 
 // Run

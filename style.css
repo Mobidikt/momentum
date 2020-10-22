@@ -29,12 +29,22 @@ h1 {
 
 h2 {
   margin-bottom: 0.5rem;
-  opacity: 0.8;
+
 }
 a{
   display: none;
 }
-
+body::before{
+  z-index: -1;
+  position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #2a2c2f;
+    opacity: 0.4;
+}
 .quote {
   font: 1.2rem Georgia, serif;
   margin: 0;
@@ -76,7 +86,21 @@ a{
   right: 10px;
 }
 .name {
+  outline: none;
   min-width: 1px;
+  cursor: pointer;
+}
+.name:hover{
+  color: burlywood;
+  text-decoration: underline;
+}
+.focus{
+  cursor: pointer;
+  outline: none;
+}
+.focus:hover{
+  color: burlywood;
+  text-decoration: underline;
 }
 .nextBtn{
   background-image: url(./assets/images/white-arrow-84.png);
@@ -95,21 +119,40 @@ a{
   border: none;
   background-size: 44px;
   outline: none;
+  transition: background-color 0.5s ease-in-out;
+}
+.nextBtn:hover{
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .city{
   outline: none;
+  cursor: pointer;
+}
+.city:hover{
+  color: burlywood;
+  text-decoration: underline;
 }
 .day{
   margin-bottom: 10px;
 }
 #result_5{
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  padding: 5px 5% 5px;
+  border-radius: 30px;
   margin-top: 25px;
   width: 80%;
-  overflow: scroll;
-  height: 10%;
-  background-color: rgba(255, 255, 255, 0.2);
+  overflow: auto;
+  overflow-x: hidden;
+  height: 20%;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
 }
-
+#result_5:hover{
+  background-color: rgba(122, 107, 107, 0.5);
+}
 @media (max-width: 700px) {
   .time {
     font-size: 6rem;
