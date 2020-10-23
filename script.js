@@ -5,8 +5,20 @@ const time = document.querySelector('.time'),
   focus = document.querySelector('.focus'),
   weekDay = document.querySelector('.day');
 // Options
-
+const nextBtn = document.querySelector('.nextBtn');
 let a =[];
+let cit ='';
+let nam ='';
+let foc= '';
+let n=1;
+
+// Weather
+const city = document.querySelector('.city');
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
+const weatherHumidity =document.querySelector('.humidity') ;
+const windSpeed = document.querySelector('.speed') ;
 
 // Show Time
 function showTime() {
@@ -25,10 +37,8 @@ function getWeekMonth(date){
   let months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
   return months[date.getMonth()];
 }
-
   function getWeekDay(date) {
   let days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
   return days[date.getDay()];
   }
 
@@ -62,7 +72,6 @@ function randomNumber (){
 for(let i=0; i<24; i++){
   a[i]=randomNumber();
   if(a[i-1]!==a[i]){
-
   } else a[i]=randomNumber();
 }
 // Set Background and Greeting
@@ -90,8 +99,6 @@ function setBgGreet() {
     greeting.textContent = `Добрый вечер, `;
   }
 }
-
-let n=1;
 
 function nextBackground(){
   let today = new Date(),
@@ -121,7 +128,6 @@ function getName() {
 // Set Name
 function setName(e) {
   if (e.type === 'keypress') {
-    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('name', e.target.innerText);
       name.blur();
@@ -149,7 +155,6 @@ function getFocus() {
 // Set Focus
 function setFocus(e) {
   if (e.type === 'keypress') {
-    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
@@ -164,48 +169,29 @@ function setFocus(e) {
   }
 }
 
-
-
-
-const nextBtn = document.querySelector('.nextBtn');
-nextBtn.addEventListener('click', ()=>{
-  nextBackground();
-})
-
-const reset = document.querySelector('.localStore');
-reset.addEventListener('click', ()=>{
-  localStorage.clear();
-})
-
-
-
-// Погода
-const city = document.querySelector('.city');
-const weatherIcon = document.querySelector('.weather-icon');
-const temperature = document.querySelector('.temperature');
-const weatherDescription = document.querySelector('.weather-description');
-const weatherHumidity =document.querySelector('.humidity') ;
-const windSpeed = document.querySelector('.speed') ;
+// const reset = document.querySelector('.localStore');
+// reset.addEventListener('click', ()=>{
+//   localStorage.clear();
+// })
 
 function setCity(e) {
   if (e.type === 'keypress') {
-  if (e.which == 13 || e.keyCode == 13) {
-    localStorage.setItem('city', e.target.innerText);
-    city.blur();
-    validCity();
-    document.removeEventListener('keydown', handleEscCloseCity);
-  }else if(e.keyCode == 27){
-    console.log(e.keyCode);
-  } 
- }
- else {
+    if (e.which == 13 || e.keyCode == 13) {
+      localStorage.setItem('city', e.target.innerText);
+      city.blur();
+      validCity();
+      document.removeEventListener('keydown', handleEscCloseCity);
+    }else if(e.keyCode == 27){
+      console.log(e.keyCode);
+    } 
+  }
+  else {
     localStorage.setItem('city', e.target.innerText);
     if(e.target.innerText == ''){
-        localStorage.setItem('city', '');
-        city.textContent = 'Введите город';
-      }
+      localStorage.setItem('city', '');
+      city.textContent = 'Введите город';
     }
-  
+  }
 }
 
 function getCity() {
@@ -226,7 +212,6 @@ function validCity(){
   weatherHumidity.textContent = `Влажность:  %`;
   windSpeed.textContent = `Скорость ветра:  м/с`;
   }
-
 }
 
 async function getWeather() {  
@@ -248,12 +233,6 @@ async function getWeather() {
   }
   
 }
-validCity()
-document.addEventListener('DOMContentLoaded', validCity);
-  
-let cit ='';
-let nam ='';
-let foc= '';
 
 function handleEscCloseCity(e) {
     if (e.key === "Escape") {
@@ -263,20 +242,20 @@ function handleEscCloseCity(e) {
       document.removeEventListener('keydown', handleEscCloseCity);
     }
   }
-  function handleEscCloseName(e) {
-    if (e.key === "Escape") {
-      name.textContent = nam;
-      name.blur();
-      document.removeEventListener('keydown', handleEscCloseName);
-    }
+function handleEscCloseName(e) {
+  if (e.key === "Escape") {
+    name.textContent = nam;
+    name.blur();
+    document.removeEventListener('keydown', handleEscCloseName);
   }
-  function handleEscCloseFocus(e) {
-    if (e.key === "Escape") {
-      focus.textContent = foc;
-      focus.blur();
-      document.removeEventListener('keydown', handleEscCloseFocus);
-    }
+}
+function handleEscCloseFocus(e) {
+  if (e.key === "Escape") {
+    focus.textContent = foc;
+    focus.blur();
+    document.removeEventListener('keydown', handleEscCloseFocus);
   }
+}
 
 city.addEventListener('keypress', setCity);
 city.addEventListener('blur', validCity);
@@ -305,8 +284,15 @@ focus.addEventListener('click', ()=>{
 document.addEventListener('keydown', handleEscCloseFocus);
 });
 
+nextBtn.addEventListener('click', ()=>{
+  nextBackground();
+});
+
+document.addEventListener('DOMContentLoaded', validCity);
 // Run
 showTime();
 setBgGreet();
 getName();
 getFocus();
+getCity();
+validCity();

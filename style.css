@@ -17,68 +17,30 @@ body {
   transition: background-image 1s ease-in-out;
   padding-top: 10%;
 }
-
-.time {
-  font-size: 8rem;
+body::before{
+  z-index: -1;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #2a2c2f;
+  opacity: 0.4;
 }
-
 h1 {
   max-width: 80%;
   margin-bottom: 3rem;
 }
-
 h2 {
   margin-bottom: 0.5rem;
-
+  
 }
 a{
   display: none;
 }
-body::before{
-  z-index: -1;
-  position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: #2a2c2f;
-    opacity: 0.4;
-}
-.quote {
-  font: 1.2rem Georgia, serif;
-  margin: 0;
-  background: #eee;
-  padding: 1em;
-  border-radius: 1em;
-}
-.quote figcaption,
-.quote blockquote {
-  margin: 1em;
-}
-.quote figcaption {
-  text-align: right;
-}
-.btn {
-  width: 60px;
-  height: 60px;
-  border: 0;
-  border-radius: 50%;
-  background-image: url("https://www.pngarts.com/files/7/Update-Button-PNG-Image.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  filter: grayscale(.8);
-  margin: 10px;
-}
-.btn:hover {
-  filter: grayscale(.2);
-}
-.btn:active,
-.btn:focus {
-  outline: 0;
-}
-.btn:active{
-  transform: scale(1.02)
+.time {
+  font-size: 8rem;
 }
 .weather{
   position: fixed;
@@ -156,5 +118,15 @@ body::before{
 @media (max-width: 700px) {
   .time {
     font-size: 6rem;
+  }
+  .nextBtn{
+    height: 35px;
+    width: 35px;
+    background-size: 30px;
+  }
+}
+@media (max-width: 450px) {
+  .time {
+    font-size: 82px;
   }
 }
