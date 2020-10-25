@@ -81,24 +81,45 @@ function setBgGreet() {
   if(hour <6){
     document.body.style.backgroundImage =
       `url(./assets/images/night/${a[hour]}.jpg)`;
+
     greeting.textContent = 'Доброй ночи, ';
   } else if (hour < 12) {
     // Morning
     document.body.style.backgroundImage =
       `url(./assets/images/morning/${a[hour]}.jpg)`;
+
     greeting.textContent = 'Доброе утро, ';
   } else if (hour < 18) {
     // Afternoon
     document.body.style.backgroundImage =
       `url(./assets/images/day/${a[hour]}.jpg)`;
+
     greeting.textContent = `Добрый день, `;
   } else {
     // Evening
     document.body.style.backgroundImage =
       `url(./assets/images/evening/${a[hour]}.jpg)`;
+
     greeting.textContent = `Добрый вечер, `;
   }
 }
+// document.addEventListener('DOMContentLoaded', () => {
+//     const images = new Array();
+
+function preloadImages(a){
+  a.forEach((element, i) => {
+    if(i<6){new Image().src = `./assets/images/night/${element}.jpg`;}
+    else if(i< 12){
+      new Image().src = `./assets/images/morning/${element}.jpg`;
+    } else if(i<18){
+new Image().src = `./assets/images/day/${element}.jpg`;
+    } else{
+      new Image().src = `./assets/images/evening/${element}.jpg`;
+    }
+  });
+}
+
+
 
 function nextBackground(){
   let today = new Date(),
@@ -290,9 +311,26 @@ nextBtn.addEventListener('click', ()=>{
 
 document.addEventListener('DOMContentLoaded', validCity);
 // Run
+preloadImages(a);
 showTime();
 setBgGreet();
 getName();
 getFocus();
 getCity();
 validCity();
+
+
+const blockquote = document.querySelector('blockquote');
+const figcaption = document.querySelector('figcaption');
+const btn = document.querySelector('.btn');
+async function getQuote() {  
+  const url = `https://type.fit/api/quotes`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  let n =data[(Math.random()*1640).toFixed(0)];
+  console.log(n);
+  blockquote.textContent = n.text;
+  figcaption.textContent = n.author;
+}
+document.addEventListener('DOMContentLoaded', getQuote);
+btn.addEventListener('click', getQuote);
