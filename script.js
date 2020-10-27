@@ -6,10 +6,10 @@ const time = document.querySelector('.time'),
   weekDay = document.querySelector('.day');
 // Options
 const nextBtn = document.querySelector('.nextBtn');
-let a =[];
-let cit ='';
-let nam ='';
-let foc= '';
+let backgrounds =[];
+let valueCity ='';
+let valueName ='';
+let valueFocus= '';
 let n=1;
 
 // Weather
@@ -19,6 +19,10 @@ const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
 const weatherHumidity =document.querySelector('.humidity') ;
 const windSpeed = document.querySelector('.speed') ;
+// Quote
+const blockquote = document.querySelector('blockquote');
+const figcaption = document.querySelector('figcaption');
+const btn = document.querySelector('.btn');
 
 // Show Time
 function showTime() {
@@ -44,7 +48,6 @@ function getWeekMonth(date){
 
   // // 12hr Format
   // hour = hour % 12 || 12;
-
   weekDay.innerHTML = `${week}, ${day} ${month}.`;
 
   // Output Time
@@ -70,9 +73,9 @@ function randomNumber (){
 }
 
 for(let i=0; i<24; i++){
-  a[i]=randomNumber();
-  if(a[i-1]!==a[i]){
-  } else a[i]=randomNumber();
+  backgrounds[i]=randomNumber();
+  if(backgrounds[i-1]!==backgrounds[i]){
+  } else backgrounds[i]=randomNumber();
 }
 // Set Background and Greeting
 function setBgGreet() {
@@ -80,58 +83,51 @@ function setBgGreet() {
     hour = today.getHours();
   if(hour <6){
     document.body.style.backgroundImage =
-      `url(./assets/images/night/${a[hour]}.jpg)`;
-
+      `url(./assets/images/night/${backgrounds[hour]}.jpg)`;
     greeting.textContent = 'Доброй ночи, ';
   } else if (hour < 12) {
     // Morning
     document.body.style.backgroundImage =
-      `url(./assets/images/morning/${a[hour]}.jpg)`;
-
+      `url(./assets/images/morning/${backgrounds[hour]}.jpg)`;
     greeting.textContent = 'Доброе утро, ';
   } else if (hour < 18) {
     // Afternoon
     document.body.style.backgroundImage =
-      `url(./assets/images/day/${a[hour]}.jpg)`;
-
+      `url(./assets/images/day/${backgrounds[hour]}.jpg)`;
     greeting.textContent = `Добрый день, `;
   } else {
     // Evening
     document.body.style.backgroundImage =
-      `url(./assets/images/evening/${a[hour]}.jpg)`;
-
+      `url(./assets/images/evening/${backgrounds[hour]}.jpg)`;
     greeting.textContent = `Добрый вечер, `;
   }
 }
-// document.addEventListener('DOMContentLoaded', () => {
-//     const images = new Array();
-
-function preloadImages(a){
-  a.forEach((element, i) => {
+// Preload
+function preloadImages(arr){
+  arr.forEach((element, i) => {
     if(i<6){new Image().src = `./assets/images/night/${element}.jpg`;}
     else if(i< 12){
       new Image().src = `./assets/images/morning/${element}.jpg`;
     } else if(i<18){
-new Image().src = `./assets/images/day/${element}.jpg`;
+      new Image().src = `./assets/images/day/${element}.jpg`;
     } else{
       new Image().src = `./assets/images/evening/${element}.jpg`;
     }
   });
 }
 
-
-
+//Next Background
 function nextBackground(){
   let today = new Date(),
     hour = today.getHours();
   if((hour+n)<=23){
     document.body.style.backgroundImage =
-      `url(./assets/images/evening/${a[hour+n]}.jpg)`;
+      `url(./assets/images/evening/${backgrounds[hour+n]}.jpg)`;
       n=n+1;
   } else {
     n=-hour;
     document.body.style.backgroundImage =
-    `url(./assets/images/evening/${a[hour+n]}.jpg)`;
+    `url(./assets/images/evening/${backgrounds[hour+n]}.jpg)`;
     n=n+1;
   }
 }
@@ -144,7 +140,6 @@ function getName() {
     name.textContent = localStorage.getItem('name');
   }
 }
-
 
 // Set Name
 function setName(e) {
@@ -214,7 +209,7 @@ function setCity(e) {
     }
   }
 }
-
+// Get City
 function getCity() {
   if (localStorage.getItem('city') === null || localStorage.getItem('city') ==='') {
     city.textContent = 'Введите город';
@@ -222,7 +217,7 @@ function getCity() {
     city.textContent = localStorage.getItem('city');
   }
 }
-
+//Checking the city
 function validCity(){
   if(city.textContent !=='' && city.textContent !=='Введите город'){
     getWeather();
@@ -234,7 +229,7 @@ function validCity(){
   windSpeed.textContent = `Скорость ветра:  м/с`;
   }
 }
-
+// Download of the weather
 async function getWeather() {  
   try{
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=ru&appid=98acfd1273ecf338e2e4e1a788021fc1&units=metric`;
@@ -252,12 +247,21 @@ async function getWeather() {
   weatherHumidity.textContent = `Влажность:  %`;
   windSpeed.textContent = `Скорость ветра:  м/с`;
   }
-  
+}
+
+// Uploading a quote
+async function getQuote() {  
+  const url = `https://type.fit/api/quotes`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  let quote =data[(Math.random()*1640).toFixed(0)];
+  blockquote.textContent = quote.text;
+  figcaption.textContent = quote.author;
 }
 
 function handleEscCloseCity(e) {
     if (e.key === "Escape") {
-      city.textContent = cit;
+      city.textContent = valueCity;
       city.blur();
       validCity();
       document.removeEventListener('keydown', handleEscCloseCity);
@@ -265,14 +269,14 @@ function handleEscCloseCity(e) {
   }
 function handleEscCloseName(e) {
   if (e.key === "Escape") {
-    name.textContent = nam;
+    name.textContent = valueName;
     name.blur();
     document.removeEventListener('keydown', handleEscCloseName);
   }
 }
 function handleEscCloseFocus(e) {
   if (e.key === "Escape") {
-    focus.textContent = foc;
+    focus.textContent = valueFocus;
     focus.blur();
     document.removeEventListener('keydown', handleEscCloseFocus);
   }
@@ -283,7 +287,7 @@ city.addEventListener('blur', validCity);
 city.addEventListener('click', ()=>{
   if (city.textContent === 'Введите город'){
     city.textContent = '';
-  } else { cit = city.textContent;}
+  } else { valueCity = city.textContent;}
   document.addEventListener('keydown', handleEscCloseCity);
 })
 
@@ -292,7 +296,7 @@ name.addEventListener('blur', setName);
 name.addEventListener('click', ()=>{
   if(name.textContent === 'Введите имя'){
     name.textContent = '';
-  } else { nam = name.textContent;}
+  } else { valueName = name.textContent;}
   document.addEventListener('keydown', handleEscCloseName);
 });
 
@@ -301,7 +305,7 @@ focus.addEventListener('blur', setFocus);
 focus.addEventListener('click', ()=>{
   if (focus.textContent === 'Введите цель'){
     focus.textContent = '';
-  } else { foc = focus.textContent;}
+  } else { valueFocus = focus.textContent;}
 document.addEventListener('keydown', handleEscCloseFocus);
 });
 
@@ -310,27 +314,13 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 document.addEventListener('DOMContentLoaded', validCity);
+document.addEventListener('DOMContentLoaded', getQuote);
+btn.addEventListener('click', getQuote);
 // Run
-preloadImages(a);
+preloadImages(backgrounds);
 showTime();
 setBgGreet();
 getName();
 getFocus();
 getCity();
 validCity();
-
-
-const blockquote = document.querySelector('blockquote');
-const figcaption = document.querySelector('figcaption');
-const btn = document.querySelector('.btn');
-async function getQuote() {  
-  const url = `https://type.fit/api/quotes`;
-  const res = await fetch(url);
-  const data = await res.json(); 
-  let n =data[(Math.random()*1640).toFixed(0)];
-  console.log(n);
-  blockquote.textContent = n.text;
-  figcaption.textContent = n.author;
-}
-document.addEventListener('DOMContentLoaded', getQuote);
-btn.addEventListener('click', getQuote);
