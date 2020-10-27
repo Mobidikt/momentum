@@ -97,40 +97,6 @@ a{
 .day{
   margin-bottom: 10px;
 }
-#result_5{
-  text-align: center;
-  font-family: 'Quicksand', sans-serif;
-  padding: 5px 5% 5px;
-  border-radius: 30px;
-  margin-top: 25px;
-  width: 80%;
-  overflow: auto;
-  overflow-x: hidden;
-  height: 20%;
-  font-size: 16px;
-  background-color: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: background-color 0.5s ease-in-out;
-}
-#result_5:hover{
-  background-color: rgba(122, 107, 107, 0.5);
-}
-@media (max-width: 700px) {
-  .time {
-    font-size: 6rem;
-  }
-  .nextBtn{
-    height: 35px;
-    width: 35px;
-    background-size: 30px;
-  }
-}
-@media (max-width: 450px) {
-  .time {
-    font-size: 82px;
-  }
-}
-
 .quote {
   overflow: auto;
   overflow-x: hidden;
@@ -172,3 +138,19 @@ a{
 .btn:active{
   transform: scale(1.02)
 }
+@media (max-width: 700px) {
+  .time {
+    font-size: 6rem;
+  }
+  .nextBtn{
+    height: 35px;
+    width: 35px;
+    background-size: 30px;
+  }
+}
+@media (max-width: 450px) {
+  .time {
+    font-size: 82px;
+  }
+}
+
